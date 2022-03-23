@@ -13,6 +13,7 @@ import time
     #print(rzut)
 #print(sumaRzutow)
 
+#update
 
 
 
