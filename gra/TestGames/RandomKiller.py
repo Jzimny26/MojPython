@@ -1,10 +1,14 @@
 from gra.Engine import Attack
 
 from gra.Models import Characters
+from gra.Engine import Heal
+
 
 def Graj():
-    Player = Characters.Character('Geralt', 4000, 80, 30)
+    Player = Characters.Character('Geralt', 400, 80, 30)
     Player.CritChance = 35
+
+
 
     MonsterName = 'Strzyga'
     MonsterHP = 150
@@ -20,8 +24,20 @@ def Graj():
         if Monster.HP > 0:
             Attack.MeleeAttack(Monster,Player)
         else:
+            Heal.Healing(Player)
             killedMonsters = killedMonsters + 1
             Monster = Characters.Character(MonsterName, MonsterHP, MonsterPower, MonsterDefense)
+
+
+
+
+
+
+
+
+
+
+
 
 
 

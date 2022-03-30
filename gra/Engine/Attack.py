@@ -1,5 +1,8 @@
 from gra.Models import Characters
 import random
+from gra.Engine import Heal
+import time
+from gra.Inventory import Potions
 
 def MeleeAttack(attacker :Characters.Character, deffender :Characters.Character):
     chance = random.randint(1,100)
@@ -7,17 +10,59 @@ def MeleeAttack(attacker :Characters.Character, deffender :Characters.Character)
     power = attacker.Power
     if isCritical :
         power = attacker.Power * attacker.CritMultiplier
-
     power = power - (power/deffender.Defense)
 
     #power = round(power, 2)
 
 
     InflictDamage(power, deffender)
-    print(f'{deffender.Name} zostało {round(deffender.HP,2)} życia!')
-    print(f'A tak naprawdę zostało {deffender.HP} życia!')
+    if deffender.HP > 0:
+        Timesleep()
+        print(f'{deffender.Name} ma {round(deffender.HP,2)} życia!')
+
 
 
 def InflictDamage(damage: float,deffender :Characters.Character):
     deffender.HP = deffender.HP - damage
+    Timesleep()
     print(f'{deffender.Name} otrzymał {round(damage,2)} obrażeń!')
+
+
+def RangeAttack(Attacker: Characters.Character, Deffender: Characters.Character):
+    Attacker.RangePower = Attacker.RangePower - (Attacker.RangePower/Deffender.Defense)
+    InflictDamage(Attacker.RangePower, Deffender)
+    Timesleep()
+    if Deffender.HP > 0:
+        print(f'{Deffender.Name} zostało {round(Deffender.HP,2)} życia ')
+
+
+
+def Attackk(Attacker : Characters.Character, Defender: Characters.Character):
+    chance = random.randint(1,100)
+    if chance <= Attacker.MeleeChance:
+        MeleeAttack(Attacker, Defender)
+    else:
+        RangeAttack(Attacker,Defender)
+
+def AttackChoice(Attacker :Characters.Character, Defender :Characters.Character):
+    Timesleep()
+    print('szybki atak - 1')
+    print('Kusza - 2')
+    print('Ekwipunek - 3')
+    wybór = int(input('Wybierz akcję: '))
+
+
+    if 1 == wybór:
+        MeleeAttack(Attacker, Defender)
+    elif 2 == wybór:
+        RangeAttack(Attacker,Defender)
+    elif 3 == wybór:
+        Potions.OpenInv()
+    else:
+        print('Podano nieprawidłową liczbę')
+        AttackChoice(Attacker, Defender)
+
+def Timesleep():
+    time.sleep(1)
+
+
