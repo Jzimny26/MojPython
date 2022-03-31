@@ -12,6 +12,7 @@ class Character:
         self.HealAmount = 15
         self.RangePower = RangePower
         self.MeleeChance = 50
+        self.Equipment = []
 
 
 

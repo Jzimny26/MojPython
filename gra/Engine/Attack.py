@@ -4,6 +4,8 @@ from gra.Engine import Heal
 import time
 from gra.Inventory import Ekwipunek
 
+delay = 0
+
 def MeleeAttack(attacker :Characters.Character, deffender :Characters.Character):
     chance = random.randint(1,100)
     isCritical = chance <= attacker.CritChance
@@ -13,7 +15,6 @@ def MeleeAttack(attacker :Characters.Character, deffender :Characters.Character)
     power = power - (power/deffender.Defense)
 
     #power = round(power, 2)
-
 
     InflictDamage(power, deffender)
     if deffender.HP > 0:
@@ -63,6 +64,6 @@ def AttackChoice(Attacker :Characters.Character, Defender :Characters.Character)
         AttackChoice(Attacker, Defender)
 
 def Timesleep():
-    time.sleep(1)
+    time.sleep(delay)
 
 

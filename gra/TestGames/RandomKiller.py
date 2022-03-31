@@ -1,23 +1,34 @@
-from gra.Engine import Attack
+import random
 
+from gra.Engine import Attack, Heal
 from gra.Models import Characters
-from gra.Engine import Heal
 
-
-def Graj():
-    Player = Characters.Character('Geralt', 400, 80, 30)
-    Player.CritChance = 35
-
-
-
+def GenerujPotwora():
     MonsterName = 'Strzyga'
-    MonsterHP = 150
-    MonsterPower = 20
-    MonsterDefense = 8
+    MonsterHP = random.randint(50, 200)
+    MonsterPower = random.randint(10, 30)
+    MonsterRange = 0
+    MonsterDefense = random.randint(0, 15)
+    Monster = Characters.Character(MonsterName, MonsterHP, MonsterPower, MonsterRange, MonsterDefense)
+    return Monster
 
+def GenerujGracza():
+    """
+    Generuje standardowego gracza o imieniu Geralt
+    :return: Zwraca obiekt typu Character
+    """
+    Player = Characters.Character('Geralt', 400, 80, 30, 15)
+    Player.CritChance = 35
+    return Player
+
+def Rozgrywka(Player, Monster):
+    """
+    Funkcja rozpoczyna losową rozgrywkę. Wynikiem jest zabita ilość potworów przez danego gracza
+    :param Player: Gracz główny
+    :param Monster: Typ potwora uczesniczący w potyczce
+    :return: Zabita ilość potworów (int)
+    """
     killedMonsters = 0
-
-    Monster = Characters.Character(MonsterName, MonsterHP, MonsterPower, MonsterDefense)
 
     while Player.HP > 0:
         Attack.MeleeAttack(Player, Monster)
@@ -26,20 +37,11 @@ def Graj():
         else:
             Heal.Healing(Player)
             killedMonsters = killedMonsters + 1
-            Monster = Characters.Character(MonsterName, MonsterHP, MonsterPower, MonsterDefense)
+            Monster = GenerujPotwora()
+    return killedMonsters
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    print(f'{Player.Name} zabił {killedMonsters} potworów typu {MonsterName}!')
-
+def Graj():
+    Player = GenerujGracza()
+    Monster = GenerujPotwora()
+    killedMonsters = Rozgrywka(Player, Monster)
+    print(f'{Player.Name} zabił {killedMonsters} potworów typu {Monster.Name}!')
