@@ -1,11 +1,11 @@
 from gra.TestGames import RandomKiller
 
 import random
-from gra.Models import Characters
+from gra.Models import CharacterBase
 from gra.Engine import Attack
 import time
 
-def Healing(Player :Characters.Character):
+def Healing(Player :CharacterBase.Character):
         Player.HP = Player.HP + Player.HealAmount
         Attack.Timesleep()
         print(f'{Player.Name} wyleczył {Player.HealAmount} obrażeń!')

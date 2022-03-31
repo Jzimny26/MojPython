@@ -1,4 +1,5 @@
 #imie, HP, Sila ataku,
+from gra.Models import ItemBase
 
 class Character:
     def __init__(self, Name, HP: float, Power, RangePower, Defense: int):
@@ -13,6 +14,9 @@ class Character:
         self.RangePower = RangePower
         self.MeleeChance = 50
         self.Equipment = []
+
+    def AddItemToEquipment(self, Item: ItemBase):
+        self.Equipment.append(Item)
 
 
 

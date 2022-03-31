@@ -1,4 +1,4 @@
-from gra.Models import Characters
+from gra.Models import CharacterBase
 import random
 from gra.Engine import Heal
 import time
@@ -6,7 +6,7 @@ from gra.Inventory import Ekwipunek
 
 delay = 0
 
-def MeleeAttack(attacker :Characters.Character, deffender :Characters.Character):
+def MeleeAttack(attacker :CharacterBase.Character, deffender :CharacterBase.Character):
     chance = random.randint(1,100)
     isCritical = chance <= attacker.CritChance
     power = attacker.Power
@@ -23,13 +23,13 @@ def MeleeAttack(attacker :Characters.Character, deffender :Characters.Character)
 
 
 
-def InflictDamage(damage: float,deffender :Characters.Character):
+def InflictDamage(damage: float,deffender :CharacterBase.Character):
     deffender.HP = deffender.HP - damage
     Timesleep()
     print(f'{deffender.Name} otrzymał {round(damage,2)} obrażeń!')
 
 
-def RangeAttack(Attacker: Characters.Character, Deffender: Characters.Character):
+def RangeAttack(Attacker: CharacterBase.Character, Deffender: CharacterBase.Character):
     Attacker.RangePower = Attacker.RangePower - (Attacker.RangePower/Deffender.Defense)
     InflictDamage(Attacker.RangePower, Deffender)
     Timesleep()
@@ -38,14 +38,14 @@ def RangeAttack(Attacker: Characters.Character, Deffender: Characters.Character)
 
 
 
-def Attackk(Attacker : Characters.Character, Defender: Characters.Character):
+def Attackk(Attacker : CharacterBase.Character, Defender: CharacterBase.Character):
     chance = random.randint(1,100)
     if chance <= Attacker.MeleeChance:
         MeleeAttack(Attacker, Defender)
     else:
         RangeAttack(Attacker,Defender)
 
-def AttackChoice(Attacker :Characters.Character, Defender :Characters.Character):
+def AttackChoice(Attacker :CharacterBase.Character, Defender :CharacterBase.Character):
     Timesleep()
     print('szybki atak - 1')
     print('Kusza - 2')

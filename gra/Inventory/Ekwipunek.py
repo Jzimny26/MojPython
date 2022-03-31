@@ -1,21 +1,21 @@
 
-from gra.Models import Characters
+from gra.Models import CharacterBase
 from gra.Engine import Attack
 
 
 
-def HealthPotion(Player :Characters.Character):
+def HealthPotion(Player :CharacterBase.Character):
     Player.HP = Player.HP + Player.HealAmount
     Attack.Timesleep()
     print(f'{Player.Name} użył eliskiru Jaskółka')
     print(f'{Player.Name} ma {Player.HP} HP!')
 
 
-def DamagePotion(Player: Characters.Character):
+def DamagePotion(Player: CharacterBase.Character):
     Player.Power = Player.Power + 15
     print(f'{Player.Name} użył Eliksiru na zwiększenie obrażeń')
 
-def OpenInv(Player: Characters.Character, Monster: Characters.Character):
+def OpenInv(Player: CharacterBase.Character, Monster: CharacterBase.Character):
 
     print('Jaskółka - 1')
     print('Eliksir obrażeń - 2')
