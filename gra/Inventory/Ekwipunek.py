@@ -1,7 +1,7 @@
-import time
+
 from gra.Models import Characters
 from gra.Engine import Attack
-from gra.Engine import Heal
+
 
 
 def HealthPotion(Player :Characters.Character):
@@ -15,18 +15,7 @@ def DamagePotion(Player: Characters.Character):
     Player.Power = Player.Power + 15
     print(f'{Player.Name} użył Eliksiru na zwiększenie obrażeń')
 
-def OpenInv():
-    Player = Characters.Character('Geralt', 300, 30, 35, 15)
-    Attacker = Player
-
-    MonsterName = 'Strzyga'
-    MonsterHP = 70
-    MonsterPower = 20
-    MonsterDefense = 5
-    MonsterRangePower = 0
-
-    Monster = Characters.Character(MonsterName, MonsterHP, MonsterPower,MonsterRangePower, MonsterDefense)
-    Defender = Monster
+def OpenInv(Player: Characters.Character, Monster: Characters.Character):
 
     print('Jaskółka - 1')
     print('Eliksir obrażeń - 2')
@@ -34,12 +23,19 @@ def OpenInv():
     wybor = int(input('Wybierz przedmiot którego chcesz użyć: '))
     if wybor == 1:
         HealthPotion(Player)
+        Attack.AttackChoice(Player)
     elif wybor == 2:
         DamagePotion(Player)
+        Attack.AttackChoice(Player, Monster)
     elif wybor == 3:
-        Attack.AttackChoice(Attacker,Defender)
+        Attack.AttackChoice(Player, Monster)
     else:
         print('Podano nieprawidłową liczbę')
-        OpenInv()
+        OpenInv(Player, Monster)
+
+
+
+
+
 
 

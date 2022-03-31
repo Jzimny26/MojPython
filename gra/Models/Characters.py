@@ -9,7 +9,7 @@ class Character:
         self.CritMultiplier = 2.0
         self.Defense = Defense
         self.HealChance = 20
-        self.HealAmount = 50
+        self.HealAmount = 15
         self.RangePower = RangePower
         self.MeleeChance = 50
 

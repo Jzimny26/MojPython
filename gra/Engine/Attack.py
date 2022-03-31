@@ -2,7 +2,7 @@ from gra.Models import Characters
 import random
 from gra.Engine import Heal
 import time
-from gra.Inventory import Potions
+from gra.Inventory import Ekwipunek
 
 def MeleeAttack(attacker :Characters.Character, deffender :Characters.Character):
     chance = random.randint(1,100)
@@ -57,7 +57,7 @@ def AttackChoice(Attacker :Characters.Character, Defender :Characters.Character)
     elif 2 == wybór:
         RangeAttack(Attacker,Defender)
     elif 3 == wybór:
-        Potions.OpenInv()
+        Ekwipunek.OpenInv(Attacker, Defender)
     else:
         print('Podano nieprawidłową liczbę')
         AttackChoice(Attacker, Defender)
