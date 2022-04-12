@@ -1,4 +1,6 @@
 import Gracz
+import Silnik
+
 
 class PlanszaObiekt:
 
@@ -16,7 +18,6 @@ class PlanszaObiekt:
         print(len(self.Plansza))
         for wiersz in self.Plansza:
             print(wiersz)
-
 
 
 

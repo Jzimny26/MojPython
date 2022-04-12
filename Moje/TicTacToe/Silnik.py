@@ -1,18 +1,12 @@
-tabela = [
-    ["O","O","X"],
-    ["X","O","O"],
-    ["X","X","O"]
-]
-
-seria = 3
-symbol = "O"
-
 import PlanszaObiekt, Gracz
+
 class SilnikGry:
-    def __init__(self, RozmiarMapy, Gracz1: Gracz.Player, Gracz2: Gracz.Player):
-        self.Mapa = PlanszaObiekt(RozmiarMapy)
+    def __init__(self, RozmiarMapy, Gracz1: Gracz.Player, Gracz2: Gracz.Player, seria = 3, DomyslnySymbol = "_"):
+        self.Mapa = PlanszaObiekt.PlanszaObiekt(RozmiarMapy, DomyslnySymbol)
         self.Gracz1 = Gracz1
         self.Gracz2 = Gracz2
+        self.seria = seria
+        self.KoniecGry = False
 
     def SprawdzWygrana(self,SeriaDanych, Symbol):
         temp = 0
@@ -22,20 +16,23 @@ class SilnikGry:
             else:
                 temp = 0
 
-            if temp >= seria:
+            if temp >= self.seria:
                 return True
 
         return False
 
+    def Graj(self):
+        return True
+
     def PobierzKolumne(self, wiersz, kolumna):
-        WierszStart = wiersz - (seria - 1)
-        WierszKoniec = wiersz + seria
+        WierszStart = wiersz - (self.seria - 1)
+        WierszKoniec = wiersz + self.seria
         Wynik = []
 
         for i in range(WierszStart,WierszKoniec):
             if i >= 0:
                 try:
-                    Symbol = self.Mapa[i][kolumna]
+                    Symbol = self.Mapa.Plansza[i][kolumna]
                     Wynik.append(Symbol)
                 except IndexError:
                     Wynik.append('')
@@ -43,14 +40,14 @@ class SilnikGry:
         return Wynik
 
     def PobierzWiersz(self, wiersz, kolumna):
-        KolumnaStart = kolumna - (seria - 1)
-        KolumnaKoniec = kolumna + seria
+        KolumnaStart = kolumna - (self.seria - 1)
+        KolumnaKoniec = kolumna + self.seria
         Wynik = []
 
         for i in range(KolumnaStart, KolumnaKoniec):
             if i >= 0:
                 try:
-                    Symbol = self.Mapa[wiersz][i]
+                    Symbol = self.Mapa.Plansza[wiersz][i]
                     Wynik.append(Symbol)
                 except IndexError:
                     Wynik.append('')
@@ -58,16 +55,16 @@ class SilnikGry:
         return Wynik
 
     def PobierzUkosZLewejDoPrawej(self, wiersz, kolumna):
-        KolumnaStart = kolumna - (seria - 1)
-        WierszStart = wiersz - (seria - 1)
-        KolumnaKoniec = kolumna + seria
+        KolumnaStart = kolumna - (self.seria - 1)
+        WierszStart = wiersz - (self.seria - 1)
+        KolumnaKoniec = kolumna + self.seria
 
         Wynik = []
 
         for i in range(KolumnaStart, KolumnaKoniec):
             if i >= 0 and WierszStart >= 0:
                 try:
-                    Symbol = self.Mapa[WierszStart][i]
+                    Symbol = self.Mapa.Plansza[WierszStart][i]
                     Wynik.append(Symbol)
                 except IndexError:
                     Wynik.append('')
@@ -76,15 +73,15 @@ class SilnikGry:
         return Wynik
 
     def PobierzUkosZPrawejDoLewej(self, wiersz, kolumna):
-        KolumnaStart = kolumna + (seria - 1)
-        WierszStart = wiersz - (seria - 1)
-        KolumnaKoniec = kolumna - seria
+        KolumnaStart = kolumna + (self.seria - 1)
+        WierszStart = wiersz - (self.seria - 1)
+        KolumnaKoniec = kolumna - self.seria
         Wynik = []
 
         for i in range(KolumnaStart,KolumnaKoniec,-1):
             if i >= 0 and WierszStart >= 0:
                 try:
-                    Symbol = self.Mapa[WierszStart][i]
+                    Symbol = self.Mapa.Plansza[WierszStart][i]
                     Wynik.append(Symbol)
                 except IndexError:
                     Wynik.append('')
@@ -99,10 +96,55 @@ class SilnikGry:
                self.SprawdzWygrana(self.PobierzUkosZLewejDoPrawej(Wiersz, Kolumna), Symbol)
 
     def WykonajRuch(self, Gracz: Gracz.Player, Y: int,X: int):
-        self.Mapa[Y][X] = Gracz.Symbol
+        self.Mapa.Plansza[Y][X] = Gracz.Symbol
+        self.KoniecGry = self.SprawdzWynik(X, Y, Gracz.Symbol)
 
     def CzyMoznaWykonacRuch(self, Y: int,X: int):
-        return True
+        symbolWPolu = self.Mapa.Plansza[Y][X]
+        symbolGracza = self.Mapa.DomyslnySymbol
+        if  symbolWPolu == symbolGracza:
+            return True
+        return False
+
+    def Ruch(self, Y: int, X: int):
+        self.Y = -1
+        self.X = -1
+        while not SilnikGry.CzyMoznaWykonacRuch(self, Y, X):
+            self.Y = input("podaj wiersz: ")
+            self.X = input("podaj kolumne: ")
+            if not  SilnikGry.CzyMoznaWykonacRuch(self, Y, X):
+                print("pole zajete lub nie instnieje")
+
+        SilnikGry.WykonajRuch(Gracz.Player,Y, X)
+
+    def RuchGracza(self, Gracz: Gracz.Player):
+        tekst = input('Podaj Y oraz X, oddzielone spacją ').split()
+        Y = int(tekst[0])
+        X = int(tekst[1])
+        if self.CzyMoznaWykonacRuch(Y, X):
+            self.WykonajRuch(Gracz, Y, X)
+            return True
+        else:
+            print(f'{Gracz.Nazwa} nie może wykonać ruchu w polu {Y}{X}')
+            return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # testowo = PobierzKolumne(tabela,2,0)
 # print(testowo)
 # wygrana = SprawdzWygrana(testowo,"X")
@@ -112,9 +154,6 @@ class SilnikGry:
 # print(test)
 # wygrana = SprawdzWygrana(test,"O")
 # print(wygrana)
-
-test = SprawdzWynik(tabela,1,1,symbol)
-print(test)
 
 #if wiersz or kolumna or skos1 or skos 2
 #return True
